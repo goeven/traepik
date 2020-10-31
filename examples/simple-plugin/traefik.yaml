@@ -1,0 +1,8 @@
+entryPoints:
+    web:
+        address: :8081
+providers:
+    file:
+        filename: traefik-dyn.yaml
+api:
+    insecure: true

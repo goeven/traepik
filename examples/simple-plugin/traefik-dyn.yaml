@@ -1,0 +1,19 @@
+http:
+    routers:
+        example:
+            service: example
+            rule: Path(`/`)
+            entryPoints:
+            - web
+            middlewares:
+            - exampleMiddleware
+    services:
+        example:
+            loadBalancer:
+                servers:
+                - url: http://private/example-service
+    middlewares:
+        exampleMiddleware:
+            plugin:
+                loggingPlugin:
+                    log-message: hi-ya
