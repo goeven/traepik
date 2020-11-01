@@ -1,9 +1,11 @@
-# simple-plugin
+# Examples
 
-## Build & Run
+## simple-plugin
+
+### Run
 
 ```bash
-go build -o traefik . && ./traefik
+go run ./simple-plugin
 ```
 
 The above command should start a traefik instance with a web server listening on port `8081`.
@@ -18,4 +20,14 @@ You will get a `BadGateway` as a response from the `curl` command, but the inter
 $ go build -o traefik . && ./traefik
 INFO[0000] Configuration loaded from file: traepik/examples/simple-plugin/traefik.yaml
 2020/10/31 14:54:20 main.go:32: traepik: hi-ya
+```
+
+## no-plugins
+
+This example is to show how to create the Traefik command without any plugins.
+
+### Run
+
+```bash
+go run ./no-plugins
 ```

@@ -299,6 +299,8 @@ github.com/go-stack/stack v1.8.0/go.mod h1:v0f6uXyyMGvRgIKkXu+yp6POWl0qKG85gN/me
 github.com/godbus/dbus v0.0.0-20190422162347-ade71ed3457e/go.mod h1:bBOAhwG1umN6/6ZUMtDFBMQR8jRg9O75tm9K00oMsK4=
 github.com/goeven/traepik v0.0.0-20201031130552-3befc6944c98 h1:dBBAB3lXq+dhDELZvjQLRjxisRz/2eJJmE1Alq+8d1Y=
 github.com/goeven/traepik v0.0.0-20201031130552-3befc6944c98/go.mod h1:DA8THryGKTxYyJDB7VtUa5r+Wxv2Zom2BBdr7edR6hY=
+github.com/goeven/traepik v0.0.0-20201101153033-ab69885a16db h1:WKAUw5He4SZr24j3Gl6frloDps6jwo3QvQo/raOQg7M=
+github.com/goeven/traepik v0.0.0-20201101153033-ab69885a16db/go.mod h1:DA8THryGKTxYyJDB7VtUa5r+Wxv2Zom2BBdr7edR6hY=
 github.com/gofrs/uuid v3.2.0+incompatible h1:y12jRkkFxsd7GpqdSZ+/KCs/fJbqpEXSGd4+jfEaewE=
 github.com/gofrs/uuid v3.2.0+incompatible/go.mod h1:b2aQJv3Z4Fp6yNu3cdSllBxTCLRxnplIgP/c0N/04lM=
 github.com/gogo/googleapis v1.1.0/go.mod h1:gf4bu3Q80BeJ6H1S1vYPm8/ELATdvryBaNFGgqEef3s=
