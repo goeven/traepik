@@ -15,6 +15,7 @@ The benefits over the current Traefik plugins approach are:
 
 This module contains a small re-write of the Traefik command's [`main` package](https://github.com/traefik/traefik/blob/v2.3.2/cmd/traefik/traefik.go), transforming it into an importable Go package. This implementation also adds support to pass Traefik plugins directly to the command's constructor, making it possible to have custom plugins that don't have to be distributed through Traefik Pilot.
 
+_NOTE: Traefik's plugins system still works, but plugins given to `cmd.New` will take precedence over the ones configured with Traefik Pilot if you use the same name._
 
 ### Usage
 
@@ -78,6 +79,6 @@ middlewares:
 
 There are some caveats, including, but not limited to:
 
-- Responsability for building the package containing the `traefik` command shifts to the person also implementing the custom plugins (basically, you).
+- Responsibility for building the package containing the `traefik` command shifts to the person also implementing the custom plugins (basically, you).
 - The `replace` directives from this repo have to also be added to your `go.mod` file.
 - The implementation relies on the particularities of how plugins are implemented right now in Traefik, and that could change anytime.
