@@ -37,7 +37,7 @@ import (
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 
 	"github.com/goeven/traepik/autogen/genstatic"
-	"github.com/goeven/traepik/pkg/plugins"
+	traepikPlugins "github.com/goeven/traepik/pkg/plugins"
 	"github.com/sirupsen/logrus"
 	"github.com/traefik/paerser/cli"
 	"github.com/traefik/traefik/v2/cmd"
@@ -52,6 +52,7 @@ import (
 	"github.com/traefik/traefik/v2/pkg/metrics"
 	"github.com/traefik/traefik/v2/pkg/middlewares/accesslog"
 	"github.com/traefik/traefik/v2/pkg/pilot"
+	"github.com/traefik/traefik/v2/pkg/plugins"
 	"github.com/traefik/traefik/v2/pkg/provider/acme"
 	"github.com/traefik/traefik/v2/pkg/provider/aggregator"
 	"github.com/traefik/traefik/v2/pkg/provider/traefik"
@@ -78,7 +79,7 @@ type Command struct {
 //	if err != nil { ... }
 // 	traefikCmd.Execute()
 //
-func New(pluginBuilders map[string]plugins.PluginBuilder) (*Command, error) {
+func New(pluginBuilders map[string]traepikPlugins.PluginBuilder) (*Command, error) {
 	// traefik config inits
 	tConfig := cmd.NewTraefikConfiguration()
 
@@ -91,7 +92,7 @@ Complete documentation is available at https://traefik.io`,
 		Configuration: tConfig,
 		Resources:     loaders,
 		Run: func(_ []string) error {
-			return runCmd(&tConfig.Configuration, plugins.PluginMapBuilder(pluginBuilders))
+			return runCmd(&tConfig.Configuration, pluginBuilders)
 		},
 	}
 
@@ -113,7 +114,7 @@ func (c *Command) Execute() error {
 	return cli.Execute(c.cmd)
 }
 
-func runCmd(staticConfiguration *static.Configuration, pluginBuilder middleware.PluginsBuilder) error {
+func runCmd(staticConfiguration *static.Configuration, pluginBuilders map[string]traepikPlugins.PluginBuilder) error {
 	configureLogging(staticConfiguration)
 
 	http.DefaultTransport.(*http.Transport).Proxy = http.ProxyFromEnvironment
@@ -147,7 +148,7 @@ func runCmd(staticConfiguration *static.Configuration, pluginBuilder middleware.
 
 	stats(staticConfiguration)
 
-	svr, err := setupServer(staticConfiguration, pluginBuilder)
+	svr, err := setupServer(staticConfiguration, pluginBuilders)
 	if err != nil {
 		return err
 	}
@@ -203,7 +204,7 @@ func runCmd(staticConfiguration *static.Configuration, pluginBuilder middleware.
 	return nil
 }
 
-func setupServer(staticConfiguration *static.Configuration, pluginBuilder middleware.PluginsBuilder) (*server.Server, error) {
+func setupServer(staticConfiguration *static.Configuration, pluginBuilders map[string]traepikPlugins.PluginBuilder) (*server.Server, error) {
 	providerAggregator := aggregator.NewProviderAggregator(*staticConfiguration.Providers)
 
 	// adds internal provider
@@ -246,9 +247,23 @@ func setupServer(staticConfiguration *static.Configuration, pluginBuilder middle
 	metricsRegistry := metrics.NewMultiRegistry(metricRegistries)
 	accessLog := setupAccessLog(staticConfiguration.AccessLog)
 	chainBuilder := middleware.NewChainBuilder(*staticConfiguration, metricsRegistry, accessLog)
+
 	managerFactory := service.NewManagerFactory(*staticConfiguration, routinesPool, metricsRegistry)
 
-	routerFactory := server.NewRouterFactory(*staticConfiguration, managerFactory, tlsManager, chainBuilder, pluginBuilder)
+	client, plgs, devPlugin, err := initPlugins(staticConfiguration)
+	if err != nil {
+		return nil, err
+	}
+
+	pluginBuilder, err := plugins.NewBuilder(client, plgs, devPlugin)
+	if err != nil {
+		return nil, err
+	}
+
+	routerFactory := server.NewRouterFactory(*staticConfiguration, managerFactory, tlsManager, chainBuilder, &traepikPlugins.BuilderWithBasePlugins{
+		BasePlugins: pluginBuilders,
+		Builder:     pluginBuilder,
+	})
 
 	var defaultEntryPoints []string
 	for name, cfg := range staticConfiguration.EntryPoints {
@@ -521,8 +536,4 @@ func collect(staticConfiguration *static.Configuration) {
 			}
 		}
 	})
-}
-
-func isPilotEnabled(staticCfg *static.Configuration) bool {
-	return staticCfg.Pilot != nil && staticCfg.Pilot.Token != ""
 }
