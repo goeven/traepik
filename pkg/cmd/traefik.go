@@ -36,8 +36,8 @@ import (
 	"github.com/coreos/go-systemd/daemon"
 	assetfs "github.com/elazarl/go-bindata-assetfs"
 
-	"github.com/goeven/traepik/autogen/genstatic"
-	traepikPlugins "github.com/goeven/traepik/pkg/plugins"
+	"github.com/goeven/traepik/v2/autogen/genstatic"
+	traepikPlugins "github.com/goeven/traepik/v2/pkg/plugins"
 	"github.com/sirupsen/logrus"
 	"github.com/traefik/paerser/cli"
 	"github.com/traefik/traefik/v2/cmd"

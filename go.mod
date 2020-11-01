@@ -1,4 +1,4 @@
-module github.com/goeven/traepik
+module github.com/goeven/traepik/v2
 
 go 1.15
 
