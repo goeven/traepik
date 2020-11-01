@@ -27,8 +27,8 @@ If you want to dive into some full code examples, take a look in the `examples` 
 package main
 
 import (
-	"github.com/goeven/traepik/pkg/cmd"
-	"github.com/goeven/traepik/pkg/plugins"
+	"github.com/goeven/traepik/v2/pkg/cmd"
+	"github.com/goeven/traepik/v2/pkg/plugins"
 )
 
 func main() {

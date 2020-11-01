@@ -3,7 +3,7 @@ package main
 import (
 	"log"
 
-	"github.com/goeven/traepik/pkg/cmd"
+	"github.com/goeven/traepik/v2/pkg/cmd"
 )
 
 func main() {

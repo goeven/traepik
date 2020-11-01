@@ -5,8 +5,8 @@ import (
 	"log"
 	"net/http"
 
-	"github.com/goeven/traepik/pkg/cmd"
-	"github.com/goeven/traepik/pkg/plugins"
+	"github.com/goeven/traepik/v2/pkg/cmd"
+	"github.com/goeven/traepik/v2/pkg/plugins"
 )
 
 func main() {
