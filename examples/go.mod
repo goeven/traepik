@@ -2,10 +2,7 @@ module github.com/goeven/traepik-simple-plugin-example
 
 go 1.15
 
-require (
-	github.com/goeven/traepik v0.0.0-20201101153033-ab69885a16db
-	github.com/goeven/traepik/v2 v2.3.2
-)
+require github.com/goeven/traepik/v2 v2.3.2
 
 // Keep `replace` directives from traefik: https://github.com/traefik/traefik/blob/3e61d1f233ebdf015eaf59e2c253fb8a1f79dbe9/go.mod#L101-L111.
 
