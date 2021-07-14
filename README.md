@@ -32,7 +32,7 @@ import (
 )
 
 func main() {
-    myPlugins := map[string]plugins.PluginBuilder{ /* ... */ }
+	myPlugins := map[string]plugins.PluginBuilder{ /* ... */ }
 
 	traefikCmd, err := cmd.New(myPlugins)
 	if err != nil { /* ... */ }
