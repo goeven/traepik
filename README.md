@@ -4,7 +4,7 @@
 
 ## Introduction
 
-Traepik (træpik) adds support for compiled plugins to the traefik command. This could also include private plugins, as the control, but also the effort of compiling `traefik`, is shifted towards you. For known caveats see the [Caveats section](#caveats).
+Traepik (træpik) adds support for compiled plugins to the traefik command. This could also include your private plugins, as the control – but also the effort of compiling `traefik` – is shifted towards you. For known caveats see the [Caveats section](#caveats).
 
 The benefits over the current Traefik plugins approach are:
 - The plugins Go code is compiled as part of building the actual `traefik` command
